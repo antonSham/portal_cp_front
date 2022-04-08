@@ -1,0 +1,8 @@
+#logo {
+    width: 50px;
+}
+
+.nav-link.disabled {
+    color: rgba(0,0,0,.55) !important;
+    font-weight: bold;
+}
