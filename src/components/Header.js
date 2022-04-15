@@ -3,14 +3,23 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 
 import logo from "../assets/logo.png";
 import "./header.css";
+import useToken from "../hooks/useToken";
 
 const Header = () => {
   const { pathname } = useLocation();
+  const navigate = useNavigate()
+  const { loggedIn } = useToken();
+
+  const onLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/")
+  }
+
   return (
     <Navbar bg="light" expand="sm">
       <Container>
@@ -33,6 +42,15 @@ const Header = () => {
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
+        {!loggedIn ? (
+          <Nav.Link as={Link} to="/login" disabled={pathname === "/login"}>
+            Вход
+          </Nav.Link>
+        ) : (
+          <Nav.Link onClick={onLogout}>
+            Выход
+          </Nav.Link>
+        )}
       </Container>
     </Navbar>
   );
